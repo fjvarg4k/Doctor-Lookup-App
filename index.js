@@ -1,7 +1,7 @@
 const doctorBaseUrl = 'https://api.betterdoctor.com/2016-03-01/doctors';
 const mapsBaseUrl = 'https://maps.googleapis.com/maps/api/js';
-const doctorAPIKey = // Insert your api key
-const mapsAPIKey = // Insert your api key
+const doctorAPIKey = '// Insert your api key';
+const mapsAPIKey = '// Insert your api key';
 
 // function formatQueryParams(params) {
 //
@@ -38,7 +38,7 @@ function getLocation(userZip) {
 
 // Grabs the provided user input
 function watchForm() {
-  $('form').on('submit', event => {
+  $('form').submit(event => {
     event.preventDefault();
     console.log('watchForm is running');
     const searchType = $('#search-options').val();
