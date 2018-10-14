@@ -18,18 +18,21 @@
         <fieldset>
           <legend class="search-legend">Search parameters</legend>
 
+
+          <label for="search-doctor-symptom">Search by doctor, specialty, or symptoms</label>
           <select id="search-options">
             <option value="doctor">Doctor</option>
             <option value="symptom">Symptom</option>
           </select>
-          <label for="search-doctor-symptom">Search by doctor, specialty, or symptoms</label>
           <input type="text" name="search-doctor-symptom" id="search-doctor-symptom-input" placeholder="Dr. John Smith, Dentist, Toothache">
           <label for="zip-code">Enter your Zipcode</label>
           <input type="number" name="zip-code" id="search-zip-input" required>
-          <input type="button" value="Search" id="search-btn">
-          <!-- <button type="button" id="search-btn">Search</button> -->
+          <!-- <input type="button" value="Search" id="search-btn"> -->
+          <button type="submit" id="search-btn">Search</button>
         </fieldset>
       </form>
+
+      <p id="error-message"></p>
 
       <div class="searchResults"></div>
     </main>
