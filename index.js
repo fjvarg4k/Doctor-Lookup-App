@@ -1,7 +1,7 @@
 const doctorBaseUrl = 'https://api.betterdoctor.com/2016-03-01/doctors';
 const mapsBaseUrl = 'https://maps.googleapis.com/maps/api/geocode/json?';
-const doctorAPIKey = 'Insert your api key';
-const mapsAPIKey = 'Insert your api key';
+const doctorAPIKey = 'a40b56e6e8f4d9f1512f27f37037cc15';
+const mapsAPIKey = 'AIzaSyAuTCxa2Y4ThVfziIO7laRz8sf38ZMhCWU';
 
 function formatQueryParams(params) {
 
@@ -35,8 +35,8 @@ function getDoctorInfo(queryType, query, zipcode) {
 
 // Takes the user zipcode, converts it to latitude and longitude
 function getLocation(userZip) {
-  let longitude;
-  let latitude;
+  // let longitude;
+  // let latitude;
   // let coords;
   const url = `${mapsBaseUrl}key=${mapsAPIKey}&address=${userZip}`;
   console.log(url);
@@ -49,11 +49,11 @@ function getLocation(userZip) {
       throw new Error(response.statusText);
     })
     .then(responseJson => {
-      // console.log(responseJson);
-      // latitude = responseJson.results[0].geometry.location.lat;
-      // longitude = responseJson.results[0].geometry.location.lng;
-      // console.log(latitude, longitude);
-      // return [latitude, longitude];
+    //   // console.log(responseJson);
+    //   // latitude = responseJson.results[0].geometry.location.lat;
+    //   // longitude = responseJson.results[0].geometry.location.lng;
+    //   // console.log(latitude, longitude);
+    //   // return [latitude, longitude];
       return responseJson;
     })
     .catch(err => {
