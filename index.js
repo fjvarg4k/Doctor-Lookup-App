@@ -19,55 +19,72 @@ function displayResults(responseJson) {
     let docGender = responseJson.data[i].profile.gender;
     let docTitle = responseJson.data[i].profile.title;
     let docImg = responseJson.data[i].profile.image_url;
-    let practiceInfo = getAddressByDistance(responseJson.data[i]);
+    let practiceInfo = getPraticeInfo(responseJson.data[i]);
     console.log(practiceInfo);
-    let location = practiceInfo.location;
+    // let location = practiceInfo.location;
+    let location = practiceInfo[0];
     // console.log(location);
-    let acceptsNewPatients = practiceInfo.acceptsPatients;
-    let phoneNumber = practiceInfo.phoneNumbers.number;
-    let numberType = practiceInfo.phoneNumbers.type;
+    // let acceptsNewPatients = practiceInfo.acceptsPatients;
+    // let phoneNumber = practiceInfo.phoneNumbers.number;
+    // let numberType = practiceInfo.phoneNumbers.type;
+    let acceptsNewPatients = practiceInfo[1];
+    let phoneNumber = practiceInfo[2]["number"];
+    let numberType = practiceInfo[2]["type"];
     // console.log(numberType);
     // console.log(phoneNumber);
 
     $('.searchResults').append(
       `<ul class="doctor-info">
          <li>${docFirstName} ${docLastName}, ${docTitle}</li>
-         <li>Gender: ${docGender}</li>
+        ${getGender(docGender)}
          <li><img src="${docImg}" alt="Image of Dr. ${docFirstName} ${docLastName}"></li>
          ${getAcceptsPatients(acceptsNewPatients)}
-         <li>${location}</li>
-         <li>${numberType}: ${phoneNumber}</li>
+         <li>
+           <ul>
+             <h3>Office Location & Contact Info</h3>
+             <li>${location}</li>
+             <li>${numberType}: ${phoneNumber}</li>
+           </ul>
+         </li>
        </ul>`
     )
   }
 }
 
-// Checks if a doctor takes new patients
-function getAcceptsPatients(accepts) {
-  if (accepts) {
-    return `<li>Accepts new patients</li>`;
-  }
+
+// Checks if gender value for the specified doctor is available
+function getGender(gender) {
+  return (gender === 'male' || gender === 'female') ?  `<li>Gender: ${gender}</li>` : `<li>Gender: N/A</li>`;
 }
 
-// Checks a doctor's different practices and only grabs the ones that are within the search area
-function getAddressByDistance(responseJson) {
+// Checks if a doctor takes new patients
+function getAcceptsPatients(accepts) {
+  return accepts ? `<li>Accepts new patients</li>` : ' ';
+}
+
+// Checks a doctor's different practices and grabs requested values for the ones that are within the search area
+function getPraticeInfo(responseJson) {
   // console.log(responseJson.practices);
   for (let i = 0; i < responseJson.practices.length; i++) {
     if (responseJson.practices[i].within_search_area === true) {
-      let practiceInfo = {
-        location: `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`,
-        acceptsPatients: responseJson.practices[i].accepts_new_patients,
-        phoneNumbers: getPhoneNumbers(responseJson.practices[i])
-      }
-      return practiceInfo;
-      // let location = `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
-      // let acceptsPatients = responseJson.practices[i].accepts_new_patients;
-      // let phoneNumbers = getPhoneNumbers(responseJson.practices[i]);
-      // return [location, acceptsPatients, phoneNumbers];
+      console.log(typeof responseJson.practices[i].within_search_area);
+      // let practiceInfo = {
+      //   location: `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`,
+      //   acceptsPatients: responseJson.practices[i].accepts_new_patients,
+      //   phoneNumbers: getPhoneNumbers(responseJson.practices[i])
+      // }
+      // return practiceInfo;
+      let location = `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
+      let acceptsPatients = responseJson.practices[i].accepts_new_patients;
+      let phoneNumbers = getPhoneNumbers(responseJson.practices[i]);
+      return [location, acceptsPatients, phoneNumbers];
+    } else if (responseJson.practices[i].within_search_area === false) {
+      continue;
     }
   }
 }
 
+// Grabs available phone numbers for a specific practice
 function getPhoneNumbers(response) {
   // console.log(response.phones.length);
   for (let i = 0; i < response.phones.length; i++) {
@@ -76,7 +93,7 @@ function getPhoneNumbers(response) {
 }
 
 
-// Using the provided user input and fetches the info from the BetterDoct API
+// Uses provided user input and fetches info from BetterDoct API
 function getDoctorInfo(queryType, query, userCoords, userDistance) {
   const params = {
     user_key: doctorAPIKey,
@@ -115,7 +132,7 @@ function getCoords(response) {
 }
 
 
-// Takes the user zipcode, converts it to latitude and longitude
+// Takes user zipcode, converts to latitude and longitude
 function getLocation(userZip, queryType, query, userDistance) {
   const url = `${mapsBaseUrl}key=${mapsAPIKey}&address=${userZip}`;
   console.log(url);
@@ -163,7 +180,7 @@ function getLocation(userZip, queryType, query, userDistance) {
 //   });
 // }
 
-// Grabs the provided user input
+// Grabs provided user input
 function watchForm() {
   $('form').on('submit', event => {
     event.preventDefault();
