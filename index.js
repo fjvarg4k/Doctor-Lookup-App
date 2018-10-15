@@ -1,6 +1,6 @@
 const doctorBaseUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?limit=20&';
 const mapsBaseUrl = 'https://maps.googleapis.com/maps/api/geocode/json?';
-const doctorAPIKey = 'a40b56e6e8f4d9f1512f27f37037cc15';
+const doctorAPIKey = 'a650db307823e26e95107e6d3347d319';
 const mapsAPIKey = 'AIzaSyAuTCxa2Y4ThVfziIO7laRz8sf38ZMhCWU';
 
 function formatQueryParams(params) {
@@ -13,29 +13,65 @@ function displayResults(responseJson) {
   console.log(responseJson);
   $('.searchResults').empty();
   for (let i = 0; i < responseJson.data.length; i++) {
+
     let docFirstName = responseJson.data[i].profile.first_name;
     let docLastName = responseJson.data[i].profile.last_name;
+    let docGender = responseJson.data[i].profile.gender;
     let docTitle = responseJson.data[i].profile.title;
     let docImg = responseJson.data[i].profile.image_url;
-    let docLocation = getAddressByDistance(responseJson.data[i])
-    // let location = `${responseJson.data[i].practices[0].visit_address.street} ${responseJson.data[i].practices[0].visit_address.city}, ${responseJson.data[i].practices[0].visit_address.state} ${responseJson.data[i].practices[0].visit_address.zip}`;
+    let practiceInfo = getAddressByDistance(responseJson.data[i]);
+    console.log(practiceInfo);
+    let location = practiceInfo.location;
+    // console.log(location);
+    let acceptsNewPatients = practiceInfo.acceptsPatients;
+    let phoneNumber = practiceInfo.phoneNumbers.number;
+    let numberType = practiceInfo.phoneNumbers.type;
+    // console.log(numberType);
+    // console.log(phoneNumber);
+
     $('.searchResults').append(
       `<ul class="doctor-info">
          <li>${docFirstName} ${docLastName}, ${docTitle}</li>
+         <li>Gender: ${docGender}</li>
          <li><img src="${docImg}" alt="Image of Dr. ${docFirstName} ${docLastName}"></li>
-         <li>${docLocation}</li>
+         ${getAcceptsPatients(acceptsNewPatients)}
+         <li>${location}</li>
+         <li>${numberType}: ${phoneNumber}</li>
        </ul>`
     )
   }
 }
 
+// Checks if a doctor takes new patients
+function getAcceptsPatients(accepts) {
+  if (accepts) {
+    return `<li>Accepts new patients</li>`;
+  }
+}
+
+// Checks a doctor's different practices and only grabs the ones that are within the search area
 function getAddressByDistance(responseJson) {
   // console.log(responseJson.practices);
   for (let i = 0; i < responseJson.practices.length; i++) {
     if (responseJson.practices[i].within_search_area === true) {
-      let location = `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
-      return location;
+      let practiceInfo = {
+        location: `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`,
+        acceptsPatients: responseJson.practices[i].accepts_new_patients,
+        phoneNumbers: getPhoneNumbers(responseJson.practices[i])
+      }
+      return practiceInfo;
+      // let location = `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
+      // let acceptsPatients = responseJson.practices[i].accepts_new_patients;
+      // let phoneNumbers = getPhoneNumbers(responseJson.practices[i]);
+      // return [location, acceptsPatients, phoneNumbers];
     }
+  }
+}
+
+function getPhoneNumbers(response) {
+  // console.log(response.phones.length);
+  for (let i = 0; i < response.phones.length; i++) {
+    return response.phones[i];
   }
 }
 
@@ -45,7 +81,7 @@ function getDoctorInfo(queryType, query, userCoords, userDistance) {
   const params = {
     user_key: doctorAPIKey,
     name: queryType === 'doctor' ? query : '',
-    query: queryType === 'symptom' ? query : '',
+    query: queryType === 'specialty' ? query : '',
     location: `${userCoords[0]},${userCoords[1]},${userDistance}`
   };
 
@@ -62,9 +98,9 @@ function getDoctorInfo(queryType, query, userCoords, userDistance) {
       throw new Error(response.statusText);
     })
     .then(responseJson => displayResults(responseJson))
-    .catch(err => {
-      $('#error-message').text(`Something went wrong: ${err.message}`)
-    });
+    // .catch(err => {
+    //   $('#error-message').text(`Something went wrong: ${err.message}`)
+    // });
 }
 //
 //
@@ -113,17 +149,26 @@ function getLocation(userZip, queryType, query, userDistance) {
 
 }
 
-function getMapInfo() {
-
-}
-
+// If an adress is clicked, produces a map of that location
+// function watchAddress() {
+//   $('.searchResults').on('click', '.location-link', event => {
+//     initMap();
+//   });
+// }
+//
+// function initMap() {
+//   map = new google.maps.Map(document.getElementById('location-map'), {
+//     center: {lat: -34.397, lng: 150.644},
+//     zoom: 8
+//   });
+// }
 
 // Grabs the provided user input
 function watchForm() {
   $('form').on('submit', event => {
     event.preventDefault();
     const searchType = $('#search-options').val();
-    const searchTerm = $('#search-doctor-symptom-input').val();
+    const searchTerm = $('#search-doctor-specialty-input').val();
     const searchZip = $('#search-zip-input').val();
     const searchDisance = $('#search-distance-input').val();
     getLocation(searchZip, searchType, searchTerm, searchDisance);
@@ -133,6 +178,7 @@ function watchForm() {
 
 function startApp() {
   watchForm();
+  // watchAddress();
   console.log('App is running.');
 }
 

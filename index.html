@@ -19,12 +19,12 @@
           <legend class="search-legend">Search parameters</legend>
 
 
-          <label for="search-doctor-symptom">Search by doctor, specialty, or symptoms</label>
+          <label for="search-doctor-symptom">Search by doctor or specialty</label>
           <select id="search-options">
             <option value="doctor">Doctor</option>
-            <option value="symptom">Symptom</option>
+            <option value="specialty">Specialty</option>
           </select>
-          <input type="text" name="search-doctor-symptom" id="search-doctor-symptom-input" placeholder="Dr. John Smith, Dentist, Toothache">
+          <input type="text" name="search-doctor-specialty" id="search-doctor-specialty-input" placeholder="Ex. Dr. John Smith, Dentist">
           <label for="zip-code">Enter your Zipcode</label>
           <input type="number" name="zip-code" id="search-zip-input" required>
           <label for="search-distance">Distance</label>
@@ -37,6 +37,9 @@
       <p id="error-message"></p>
 
       <div class="searchResults"></div>
+      <div id="location-map"></div>
+
+      </div>
     </main>
 
     <script
