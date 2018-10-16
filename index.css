@@ -6,7 +6,6 @@ body {
 body {
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
-  /* background-color: #FFEEC0; */
 }
 
 nav .nav-container {
@@ -14,9 +13,11 @@ nav .nav-container {
   display: flex;
   position: relative;
   width: 100%;
+  border-bottom: 1px solid #3C5AB2;
 }
 
 .title-subtext {
+  display: none;
   color: black;
   font-weight: 700;
   margin-top: auto;
@@ -79,35 +80,70 @@ input[type="number"] {
 
 main {
   background-color: #EDEFF2;
+  height: 100%;
 }
 
 #error-message {
   margin: 0;
 }
 
-.searchResults {
+.load-screen {
   display: flex;
-  justify-content: center;
+  height: 100%;
+}
+
+.load-in-text {
+  font-size: 38px;
+  margin: auto;
+  border: 1px solid #B28C2A;
+  background-color: rgba(255, 219, 126, .3);
+  padding: 50px;
+  text-align: center;
+}
+
+.searchResults {
+  height: 100%;
+  /* display: flex; */
+  /* justify-content: center; */
   /* text-align: center; */
-  flex-direction: column;
+  /* flex-direction: column; */
+  /* align-items: flex-start; */
 }
 
 .doctor-container {
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  /* align-items: space-around; */
+  /* justify-content: center; */
+}
+
+.doctor-container:first-child {
+  padding-top: 15px;
+}
+
+.doctor-container:last-child {
+  padding-bottom: 15px;
+  margin-bottom: 0;
 }
 
 .doctor-info,
 .contact-info {
   list-style: none;
+  padding-left: 0;
 }
 
 .doctor-info {
-  margin: 0;
+  margin: auto;
+  background-color: #FEFEFE;
+  border: 1px solid black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 50%;
 }
 
-.contact-info {
+/* .contact-info {
   padding-left: 0;
-}
+} */
 
 .capitalize {
   text-transform: capitalize;
