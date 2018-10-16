@@ -1,5 +1,67 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  /* background-color: #FFEEC0; */
+}
+
+nav .nav-container {
+  background-color: #91ADFF;
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.title-subtext {
+  color: black;
+  font-weight: 700;
+  margin-top: auto;
+  padding-left: 5px;
+}
+
+form {
+  margin: auto 0 auto auto;
+}
+
+input {
+  /* border: 1px solid black;
+  border-radius: 5px; */
+  /* outline: none; */
+}
+
+nav h1 {
+  margin: 0;
+  text-align: center;
+  padding: 10px 0;
+  color: #5d5e60;
+  padding-left: 8px;
+}
+
+.form-container {
+  /* display: flex; */
+  /* justify-content: flex-end; */
+}
+
 fieldset {
   border: none;
+}
+
+label,
+select,
+input {
+  padding-left: 5px;
+}
+
+#search-btn {
+  cursor: pointer;
+  background-color: #FFDB7E;
+  font-weight: 700;
+  border: 1px solid #B28C2A;
+  border-radius: 2px;
 }
 
 .search-legend {
@@ -13,4 +75,40 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+main {
+  background-color: #EDEFF2;
+}
+
+#error-message {
+  margin: 0;
+}
+
+.searchResults {
+  display: flex;
+  justify-content: center;
+  /* text-align: center; */
+  flex-direction: column;
+}
+
+.doctor-container {
+  border: 1px solid black;
+}
+
+.doctor-info,
+.contact-info {
+  list-style: none;
+}
+
+.doctor-info {
+  margin: 0;
+}
+
+.contact-info {
+  padding-left: 0;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

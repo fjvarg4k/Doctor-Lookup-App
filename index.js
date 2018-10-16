@@ -34,19 +34,21 @@ function displayResults(responseJson) {
     // console.log(phoneNumber);
 
     $('.searchResults').append(
-      `<ul class="doctor-info">
-         <li>${docFirstName} ${docLastName}, ${docTitle}</li>
-        ${getGender(docGender)}
-         <li><img src="${docImg}" alt="Image of Dr. ${docFirstName} ${docLastName}"></li>
-         ${getAcceptsPatients(acceptsNewPatients)}
-         <li>
-           <ul>
-             <h3>Office Location & Contact Info</h3>
-             <li>${location}</li>
-             <li>${numberType}: ${phoneNumber}</li>
-           </ul>
-         </li>
-       </ul>`
+      `<div class="doctor-container">
+         <ul class="doctor-info">
+           <li>${docFirstName} ${docLastName}, ${docTitle}</li>
+          ${getGender(docGender)}
+           <li><img src="${docImg}" alt="Image of Dr. ${docFirstName} ${docLastName}"></li>
+           ${getAcceptsPatients(acceptsNewPatients)}
+           <li>
+             <ul class="contact-info">
+               <h3>Office Location & Contact Info</h3>
+               <li>${location}</li>
+               <li class="capitalize">${numberType}: (${phoneNumber.substr(0,3)})${phoneNumber.substr(3,3)}-${phoneNumber.substr(6)}</li>
+             </ul>
+           </li>
+         </ul>
+      </div>`
     )
   }
 }
@@ -54,7 +56,7 @@ function displayResults(responseJson) {
 
 // Checks if gender value for the specified doctor is available
 function getGender(gender) {
-  return (gender === 'male' || gender === 'female') ?  `<li>Gender: ${gender}</li>` : `<li>Gender: N/A</li>`;
+  return (gender === 'male' || gender === 'female') ?  `<li class="capitalize">Gender: ${gender}</li>` : `<li>Gender: N/A</li>`;
 }
 
 // Checks if a doctor takes new patients
@@ -67,7 +69,7 @@ function getPraticeInfo(responseJson) {
   // console.log(responseJson.practices);
   for (let i = 0; i < responseJson.practices.length; i++) {
     if (responseJson.practices[i].within_search_area === true) {
-      console.log(typeof responseJson.practices[i].within_search_area);
+      // console.log(typeof responseJson.practices[i].within_search_area);
       // let practiceInfo = {
       //   location: `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`,
       //   acceptsPatients: responseJson.practices[i].accepts_new_patients,

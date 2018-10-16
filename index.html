@@ -5,48 +5,50 @@
     <meta name="description" content="Find a doctor in your area">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Lookup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   </head>
   <body>
 
-    <header role="banner">
+    <nav role="navigation">
+      <div class="nav-container">
       <h1>Doctor Lookup</h1>
-    </header>
+      <p class="title-subtext">Find the perfect doctor for you</p>
+        <!-- <div class="form-container"> -->
+          <form class="search-form">
+            <fieldset>
+              <legend class="search-legend">Search parameters</legend>
+
+
+              <label for="search-doctor-symptom">Search by</label>
+              <select id="search-options">
+                <option value="doctor">Doctor</option>
+                <option value="specialty">Specialty</option>
+              </select>
+              <input type="text" name="search-doctor-specialty" id="search-doctor-specialty-input" placeholder="Ex. Dr. John Smith, Dentist">
+              <label for="zip-code">Enter your Zipcode</label>
+              <input type="number" name="zip-code" id="search-zip-input" required>
+              <label for="search-distance">Distance (in miles)</label>
+              <input type="number" name="search-distance" id="search-distance-input" required>
+              <button type="submit" id="search-btn">Search</button>
+            </fieldset>
+          </form>
+        <!-- </div> -->
+      </div>
+    </nav>
 
     <main role="main">
-      <form class="search-form">
-        <fieldset>
-          <legend class="search-legend">Search parameters</legend>
-
-
-          <label for="search-doctor-symptom">Search by doctor or specialty</label>
-          <select id="search-options">
-            <option value="doctor">Doctor</option>
-            <option value="specialty">Specialty</option>
-          </select>
-          <input type="text" name="search-doctor-specialty" id="search-doctor-specialty-input" placeholder="Ex. Dr. John Smith, Dentist">
-          <label for="zip-code">Enter your Zipcode</label>
-          <input type="number" name="zip-code" id="search-zip-input" required>
-          <label for="search-distance">Distance</label>
-          <input type="number" name="search-distance" id="search-distance-input" required>
-          <!-- <input type="button" value="Search" id="search-btn"> -->
-          <button type="submit" id="search-btn">Search</button>
-        </fieldset>
-      </form>
 
       <p id="error-message"></p>
 
-      <div class="searchResults"></div>
-      <div id="location-map"></div>
+      <section role="region">
+        <div class="searchResults"></div>
+      </section>
 
-      </div>
     </main>
 
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous">
-    </script>
     <script src="index.js"></script>
   </body>
 </html>
