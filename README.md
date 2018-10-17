@@ -5,10 +5,11 @@ Live site up on: https://fjvarg4k.github.io/Doctor-Lookup-App/
 
 # Screenshots
 Landing Page:
-![Landing Page]['./resources/img/doctor-lookup-home-page.JPG']
+![doctor-lookup-home-page](https://user-images.githubusercontent.com/11948360/47116426-46e88080-d227-11e8-96e0-ae33f5e10cd4.JPG)
 
 Results Page:
-![Results Page]['./resources/img/doctor-lookup-results-page.JPG']
+![doctor-lookup-results-page](https://user-images.githubusercontent.com/11948360/47116466-5f589b00-d227-11e8-8a6a-9a5394c245ab.JPG)
+
 
 # Built with
 * HTML
