@@ -11,6 +11,7 @@ function formatQueryParams(params) {
 
 function displayResults(responseJson) {
   console.log(responseJson);
+  $('#error-message').empty();
   $('.searchResults').empty();
   for (let i = 0; i < responseJson.data.length; i++) {
 
@@ -21,25 +22,33 @@ function displayResults(responseJson) {
     let docImg = responseJson.data[i].profile.image_url;
     let practiceInfo = getPraticeInfo(responseJson.data[i]);
     if (practiceInfo.length > 0) {
-      let location = practiceInfo[0];
-      let acceptsNewPatients = practiceInfo[1];
-      let phoneNumber = practiceInfo[2]["number"];
-      let numberType = practiceInfo[2]["type"];
+      let streetLocation = practiceInfo[0];
+      let cityLocation = practiceInfo[1]
+      let acceptsNewPatients = practiceInfo[2];
+      let phoneNumber = practiceInfo[3]["number"];
+      let numberType = practiceInfo[3]["type"];
 
       $('.searchResults').append(
         `<div class="doctor-container">
            <ul class="doctor-info">
-             <li>${docFirstName} ${docLastName}, ${docTitle}</li>
-            ${getGender(docGender)}
-             <li><img src="${docImg}" alt="Image of Dr. ${docFirstName} ${docLastName}"></li>
-             ${getAcceptsPatients(acceptsNewPatients)}
-             <li>
-               <ul class="contact-info">
-                 <h3>Office Location & Contact Info</h3>
-                 <li>${location}</li>
-                 <li><span class="capitalize">${numberType}</span>: (${phoneNumber.substr(0,3)})${phoneNumber.substr(3,3)}-${phoneNumber.substr(6)}</li>
-               </ul>
-             </li>
+             <div class="wrapper">
+               <li class="doctor-card-text doctor-name">${docFirstName} ${docLastName} <span class="doctor-title">${docTitle}</span></li>
+               ${getGender(docGender)}
+               ${getAcceptsPatients(acceptsNewPatients)}
+             </div>
+             <div class="wrapper">
+               <li>
+                 <ul class="contact-info">
+                   <h3 class="office-location-title doctor-card-text">Office Location & Contact Info</h3>
+                   <li class="doctor-card-text">${streetLocation}</li>
+                   <li class="doctor-card-text">${cityLocation}</li>
+                   <li class="doctor-card-text"><span class="capitalize">${numberType}</span>: (${phoneNumber.substr(0,3)})${phoneNumber.substr(3,3)}-${phoneNumber.substr(6)}</li>
+                 </ul>
+               </li>
+             </div>
+             <div class="wrapper">
+               <li><img src="${docImg}" class="doctor-img" alt="Image of Dr. ${docFirstName} ${docLastName}"></li>
+             </div>
            </ul>
         </div>`
       )
@@ -50,12 +59,12 @@ function displayResults(responseJson) {
 
 // Checks if gender value for the specified doctor is available
 function getGender(gender) {
-  return (gender === 'male' || gender === 'female') ?  `<li>Gender: <span class="capitalize">${gender}</span></li>` : `<li>Gender: N/A</li>`;
+  return (gender === 'male' || gender === 'female') ?  `<li class="doctor-card-text">Gender: <span class="capitalize">${gender}</span></li>` : `<li class="doctor-card-text">Gender: N/A</li>`;
 }
 
 // Checks if a doctor takes new patients
 function getAcceptsPatients(accepts) {
-  return accepts ? `<li>Accepts new patients</li>` : ' ';
+  return accepts ? `<li class="doctor-card-text accepts-patients">Accepts new patients</li>` : ' ';
 }
 
 // Checks a doctor's different practices and grabs requested values for the ones that are within the search area
@@ -63,10 +72,11 @@ function getPraticeInfo(responseJson) {
   let informationOfDoctor = [];
   for (let i = 0; i < responseJson.practices.length; i++) {
     if (responseJson.practices[i].within_search_area === true) {
-      let location = `${responseJson.practices[i].visit_address.street} ${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
+      let streetLocation = `${responseJson.practices[i].visit_address.street}`;
+      let cityLocation = `${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
       let acceptsPatients = responseJson.practices[i].accepts_new_patients;
       let phoneNumbers = getPhoneNumbers(responseJson.practices[i]);
-      informationOfDoctor.push(location, acceptsPatients, phoneNumbers);
+      informationOfDoctor.push(streetLocation, cityLocation, acceptsPatients, phoneNumbers);
       return informationOfDoctor;
     }
   }
@@ -105,11 +115,12 @@ function getDoctorInfo(queryType, query, userCoords, userDistance) {
       if (responseJson.data.length > 0) {
         displayResults(responseJson);
       } else {
-        $('#error-message').text('No results were found.');
+        $('#error-message').text('No results were found');
       }
     })
     .catch(err => {
-      $('#error-message').text('No results were found.')
+      $('.searchResults').empty();
+      $('#error-message').text('No results were found')
     });
 }
 
@@ -151,16 +162,20 @@ function watchForm() {
     $('.title-subtext').css('display', 'block');
     $('main').css('height', 'auto');
     event.preventDefault();
-    const searchType = $('#search-options').val();
-    const searchTerm = $('#search-doctor-specialty-input').val();
-    const searchZip = $('#search-zip-input').val();
-    const searchDisance = $('#search-distance-input').val();
+    const searchType = $('.search-options').val();
+    const searchTerm = $('.search-doctor-specialty-input').val();
+    const searchZip = $('.search-zip-input').val();
+    const searchDisance = $('.search-distance-input').val();
     getLocation(searchZip, searchType, searchTerm, searchDisance);
   });
 }
 
-function startApp() {
-  watchForm();
-}
 
-$(startApp);
+// Starts load-in-text animation on page reload
+$(function() {
+  setTimeout(function() {
+      $('.load-in-text').removeClass('hidden');
+  }, 500);
+});
+
+$(watchForm);

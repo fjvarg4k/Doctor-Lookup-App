@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Lookup</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -13,41 +14,41 @@
   <body>
 
     <nav role="navigation">
-      <div class="nav-container">
       <h1>Doctor Lookup</h1>
       <p class="title-subtext">Find the perfect doctor for you</p>
-        <!-- <div class="form-container"> -->
-          <form class="search-form">
-            <fieldset>
-              <legend class="search-legend">Search parameters</legend>
-
-
-              <label for="search-doctor-symptom">Search by</label>
-              <select id="search-options">
-                <option value="doctor">Doctor</option>
-                <option value="specialty">Specialty</option>
-              </select>
-              <input type="text" name="search-doctor-specialty" id="search-doctor-specialty-input" placeholder="Ex. Dr. John Smith, Dentist">
-              <label for="zip-code">Enter your Zipcode</label>
-              <input type="number" name="zip-code" id="search-zip-input" required>
-              <label for="search-distance">Distance (in miles)</label>
-              <input type="number" name="search-distance" id="search-distance-input" required>
-              <button type="submit" id="search-btn">Search</button>
-            </fieldset>
-          </form>
-        <!-- </div> -->
-      </div>
     </nav>
 
     <main role="main">
 
+      <section role="region">
+        <form class="search-form">
+          <fieldset>
+            <div class="search-form-responsive">
+              <legend class="search-legend">Search parameters</legend>
+              <label for="search-doctor-symptom">Search by</label>
+              <select class="search-options">
+                <option value="doctor">Doctor</option>
+                <option value="specialty">Specialty</option>
+              </select>
+              <input type="text" name="search-doctor-specialty" class="search-doctor-specialty-input" placeholder="Ex. Dr. John Smith, Dentist">
+              <label for="zip-code">Enter your Zipcode</label>
+              <input type="number" name="zip-code" class="search-zip-input" required>
+              <label for="search-distance">Distance (in miles)</label>
+              <input type="number" name="search-distance" class="search-distance-input" required>
+              <button type="submit" class="search-btn">Search</button>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
       <div class="load-screen">
-        <h3 class="load-in-text">Find the perfect doctor for you</h3>
+        <h3 class="load-in-text hidden">Find the perfect doctor for you</h3>
       </div>
+
+      <h3 id="error-message"></h3>
 
       <section role="region">
         <div class="searchResults">
-          <p id="error-message"></p>
         </div>
       </section>
 

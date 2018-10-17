@@ -6,14 +6,16 @@ body {
 body {
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
+  background-color: #EDEFF2
 }
 
-nav .nav-container {
+nav {
   background-color: #91ADFF;
+  border-bottom: 1px solid #3C5AB2;
+  width: 100%;
   display: flex;
   position: relative;
-  width: 100%;
-  border-bottom: 1px solid #3C5AB2;
+  flex-wrap: wrap;
 }
 
 .title-subtext {
@@ -25,26 +27,16 @@ nav .nav-container {
 }
 
 form {
-  margin: auto 0 auto auto;
-}
-
-input {
-  /* border: 1px solid black;
-  border-radius: 5px; */
-  /* outline: none; */
+  margin-top: 10px;
+  text-align: center;
 }
 
 nav h1 {
   margin: 0;
   text-align: center;
   padding: 10px 0;
-  color: #5d5e60;
+  color: #5D5E60;
   padding-left: 8px;
-}
-
-.form-container {
-  /* display: flex; */
-  /* justify-content: flex-end; */
 }
 
 fieldset {
@@ -57,7 +49,11 @@ input {
   padding-left: 5px;
 }
 
-#search-btn {
+input {
+  border: 1px solid #B28C2A;
+}
+
+.search-btn {
   cursor: pointer;
   background-color: #FFDB7E;
   font-weight: 700;
@@ -78,18 +74,19 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-main {
-  background-color: #EDEFF2;
-  height: 100%;
+.hamburger-menu-icon {
+  display: none;
 }
 
 #error-message {
-  margin: 0;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 38px;
 }
 
 .load-screen {
   display: flex;
-  height: 100%;
+  height: auto;
 }
 
 .load-in-text {
@@ -97,25 +94,24 @@ main {
   margin: auto;
   border: 1px solid #B28C2A;
   background-color: rgba(255, 219, 126, .3);
+  border-radius: 10px;
   padding: 50px;
   text-align: center;
+  transform: translateY(100%);
+  transition: all 2s ease;
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(400%);
 }
 
 .searchResults {
   height: 100%;
-  /* display: flex; */
-  /* justify-content: center; */
-  /* text-align: center; */
-  /* flex-direction: column; */
-  /* align-items: flex-start; */
 }
 
 .doctor-container {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 15px;
-  /* align-items: space-around; */
-  /* justify-content: center; */
 }
 
 .doctor-container:first-child {
@@ -139,12 +135,109 @@ main {
   border: 1px solid black;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   width: 50%;
+  padding-left: 5px;
+  overflow: hidden;
 }
 
-/* .contact-info {
-  padding-left: 0;
-} */
+.doctor-img {
+  padding: 15px 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.wrapper {
+  float: left;
+  width: 33.33%;
+}
+
+.doctor-card-text {
+  padding-bottom: 5px;
+}
+
+.doctor-card-text:first-child,
+.office-location-title {
+  padding-top: 15px;
+}
+
+.office-location-title {
+  margin: 0;
+}
+
+.doctor-name {
+  color: #3C5AB2;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.doctor-title {
+  color: grey;
+}
+
+.accepts-patients {
+  font-weight: 600;
+}
+
+@media screen and (max-width: 1500px) {
+
+  .search-form {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .search-form-responsive {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    padding-bottom: 5px;
+  }
+
+  select,
+  .search-distance-input {
+    margin-bottom: 5px;
+  }
+}
+
+@media screen and (max-width: 1240px) {
+  .doctor-name,
+  .office-location-title {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .wrapper {
+    float: none;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .doctor-name {
+    padding-top: 5px;
+  }
+
+  .doctor-info {
+    width: 75%;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .load-in-text {
+    font-size: 26px;
+  }
+
+  .doctor-info {
+    text-align: center;
+  }
 }
