@@ -115,6 +115,7 @@ function getDoctorInfo(queryType, query, userCoords, userDistance) {
       if (responseJson.data.length > 0) {
         displayResults(responseJson);
       } else {
+        $('.searchResults').empty();
         $('#error-message').text('No results were found');
       }
     })
