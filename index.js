@@ -10,7 +10,6 @@ function formatQueryParams(params) {
 }
 
 function displayResults(responseJson) {
-  console.log(responseJson);
   $('#error-message').empty();
   $('.searchResults').empty();
   for (let i = 0; i < responseJson.data.length; i++) {
@@ -71,7 +70,7 @@ function getAcceptsPatients(accepts) {
 function getPraticeInfo(responseJson) {
   let informationOfDoctor = [];
   for (let i = 0; i < responseJson.practices.length; i++) {
-    if (responseJson.practices[i].within_search_area === true) {
+    if (responseJson.practices[i].within_search_area) {
       let streetLocation = `${responseJson.practices[i].visit_address.street}`;
       let cityLocation = `${responseJson.practices[i].visit_address.city}, ${responseJson.practices[i].visit_address.state} ${responseJson.practices[i].visit_address.zip}`;
       let acceptsPatients = responseJson.practices[i].accepts_new_patients;
@@ -137,11 +136,10 @@ function getCoords(response) {
 // Takes user zipcode, converts to latitude and longitude
 function getLocation(userZip, queryType, query, userDistance) {
   const url = `${mapsBaseUrl}key=${mapsAPIKey}&address=${userZip}`;
-  console.log(url);
+  // console.log(url);
 
   return fetch(url)
     .then(response => {
-      // return response.json();
       if (response.ok) {
         return response.json();
       }
