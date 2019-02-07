@@ -19,7 +19,7 @@ function displayResults(responseJson) {
     let docGender = responseJson.data[i].profile.gender;
     let docTitle = responseJson.data[i].profile.title;
     let docImg = responseJson.data[i].profile.image_url;
-    let practiceInfo = getPraticeInfo(responseJson.data[i]);
+    let practiceInfo = getPracticeInfo(responseJson.data[i]);
     if (practiceInfo.length > 0) {
       let streetLocation = practiceInfo[0];
       let cityLocation = practiceInfo[1]
@@ -67,7 +67,7 @@ function getAcceptsPatients(accepts) {
 }
 
 // Checks a doctor's different practices and grabs requested values for the ones that are within the search area
-function getPraticeInfo(responseJson) {
+function getPracticeInfo(responseJson) {
   let informationOfDoctor = [];
   for (let i = 0; i < responseJson.practices.length; i++) {
     if (responseJson.practices[i].within_search_area) {
@@ -101,7 +101,6 @@ function getDoctorInfo(queryType, query, userCoords, userDistance) {
 
   const queryString = formatQueryParams(params);
   const url = `${doctorBaseUrl}${queryString}`;
-  console.log(url);
 
   fetch(url)
     .then(response => {
@@ -136,7 +135,6 @@ function getCoords(response) {
 // Takes user zipcode, converts to latitude and longitude
 function getLocation(userZip, queryType, query, userDistance) {
   const url = `${mapsBaseUrl}key=${mapsAPIKey}&address=${userZip}`;
-  // console.log(url);
 
   return fetch(url)
     .then(response => {
@@ -159,7 +157,7 @@ function watchForm() {
   $('form').on('submit', event => {
     $('.load-screen').css('display', 'none');
     $('.title-subtext').css('display', 'block');
-    $('main').css('height', 'auto');
+    // $('main').css('height', 'auto');
     event.preventDefault();
     const searchType = $('.search-options').val();
     const searchTerm = $('.search-doctor-specialty-input').val();
